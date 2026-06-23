@@ -1,0 +1,810 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Naïm Hamdaoui — Portfolio BTS SIO SISR</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;600;700&display=swap" rel="stylesheet" />
+
+  <style>
+    /* ── TOKENS ─────────────────────────────────────────── */
+    :root {
+      --bg:        #0D1117;
+      --bg2:       #161B22;
+      --bg3:       #1C2330;
+      --border:    #21262D;
+      --text:      #C9D1D9;
+      --muted:     #8B949E;
+      --cyan:      #58A6FF;
+      --green:     #3FB950;
+      --orange:    #F78166;
+      --purple:    #BC8CFF;
+      --mono:      'JetBrains Mono', ui-monospace, monospace;
+      --sans:      'Inter', system-ui, sans-serif;
+      --radius:    10px;
+    }
+
+    /* ── RESET ───────────────────────────────────────────── */
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    html { scroll-behavior:smooth; }
+    body { background:var(--bg); color:var(--text); font-family:var(--sans);
+           font-size:16px; line-height:1.65; min-height:100vh; }
+    a { color:inherit; text-decoration:none; }
+    img { display:block; max-width:100%; }
+    ul { list-style:none; }
+
+    /* ── BACKGROUND GRID ─────────────────────────────────── */
+    body::before {
+      content:'';
+      position:fixed; inset:0; z-index:-1; pointer-events:none;
+      background-image:
+        linear-gradient(var(--border) 1px, transparent 1px),
+        linear-gradient(90deg, var(--border) 1px, transparent 1px);
+      background-size:56px 56px;
+      opacity:.3;
+    }
+
+    /* ── NAV ─────────────────────────────────────────────── */
+    nav {
+      position:sticky; top:0; z-index:200;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:16px 5vw;
+      background:rgba(13,17,23,.88);
+      backdrop-filter:blur(14px);
+      border-bottom:1px solid var(--border);
+    }
+    .nav-logo {
+      font-family:var(--mono); font-size:.95rem; font-weight:700;
+      color:var(--text); letter-spacing:.4px;
+    }
+    .nav-logo .acc { color:var(--green); }
+    .nav-logo .prompt { color:var(--cyan); }
+    .nav-menu { display:flex; gap:6px; }
+    .nav-menu a {
+      font-family:var(--mono); font-size:.82rem;
+      color:var(--muted); padding:7px 14px; border-radius:6px;
+      border:1px solid transparent;
+      transition:color .2s, border-color .2s, background .2s;
+    }
+    .nav-menu a:hover { color:var(--text); border-color:var(--border); background:var(--bg2); }
+    .nav-menu a:focus-visible { outline:2px solid var(--cyan); outline-offset:3px; }
+    .hamburger { display:none; flex-direction:column; gap:5px; cursor:pointer;
+                 padding:6px; border:none; background:none; }
+    .hamburger span { display:block; width:22px; height:2px; background:var(--text); border-radius:2px; transition:.3s; }
+
+    /* ── HERO ────────────────────────────────────────────── */
+    .hero {
+      max-width:1120px; margin:0 auto;
+      padding:110px 5vw 80px;
+    }
+    .hero-badge {
+      display:inline-flex; align-items:center; gap:8px;
+      font-family:var(--mono); font-size:.78rem; color:var(--green);
+      text-transform:uppercase; letter-spacing:1.8px; margin-bottom:22px;
+    }
+    .hero-badge::before {
+      content:''; width:8px; height:8px; border-radius:50%;
+      background:var(--green);
+      box-shadow:0 0 0 3px rgba(63,185,80,.2);
+      animation:blink 2.4s ease-in-out infinite;
+    }
+    @keyframes blink {
+      0%,100% { box-shadow:0 0 0 3px rgba(63,185,80,.2); }
+      50%      { box-shadow:0 0 0 8px rgba(63,185,80,.04); }
+    }
+    .hero h1 {
+      font-size:clamp(2.2rem,5.5vw,4rem); font-weight:800;
+      line-height:1.08; letter-spacing:-1.5px; margin-bottom:22px;
+    }
+    .hero h1 .name { color:var(--text); }
+    .hero h1 .role {
+      font-family:var(--mono); font-weight:700;
+      background:linear-gradient(90deg,var(--cyan),var(--purple));
+      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
+      background-clip:text;
+    }
+    .hero-desc { max-width:600px; color:var(--muted); font-size:1rem; margin-bottom:36px; }
+    .hero-cta { display:flex; flex-wrap:wrap; gap:12px; }
+    .btn {
+      display:inline-flex; align-items:center; gap:8px;
+      font-family:var(--mono); font-size:.85rem; font-weight:600;
+      padding:11px 20px; border-radius:7px;
+      border:1px solid var(--border);
+      color:var(--text); background:var(--bg2);
+      transition:all .2s; cursor:pointer;
+    }
+    .btn:hover { border-color:var(--cyan); color:var(--cyan); }
+    .btn.primary { background:var(--cyan); color:#0D1117; border-color:var(--cyan); }
+    .btn.primary:hover { background:#79b8ff; border-color:#79b8ff; color:#0D1117; }
+    .btn:focus-visible { outline:2px solid var(--cyan); outline-offset:3px; }
+
+    /* ── DIVIDER ─────────────────────────────────────────── */
+    .divider {
+      display:flex; align-items:center; gap:10px;
+      max-width:1120px; margin:56px auto; padding:0 5vw;
+    }
+    .divider .node {
+      width:10px; height:10px; border-radius:50%;
+      border:2px solid var(--cyan); background:var(--bg); flex-shrink:0;
+    }
+    .divider .wire {
+      flex:1; height:1px;
+      background:repeating-linear-gradient(90deg, var(--border) 0 8px, transparent 8px 16px);
+    }
+    .divider .label { font-family:var(--mono); font-size:.72rem; color:var(--muted); white-space:nowrap; }
+
+    /* ── SECTION ─────────────────────────────────────────── */
+    section { max-width:1120px; margin:0 auto; padding:52px 5vw; }
+    .section-eyebrow {
+      display:inline-flex; align-items:center; gap:8px;
+      font-family:var(--mono); font-size:.72rem; font-weight:700;
+      text-transform:uppercase; letter-spacing:1.6px;
+      padding:4px 10px; border-radius:5px; margin-bottom:14px;
+      background:var(--bg2); border:1px solid var(--border); color:var(--muted);
+    }
+    .section-eyebrow.cyan   { color:var(--cyan);   border-color:var(--cyan);   background:rgba(88,166,255,.08); }
+    .section-eyebrow.green  { color:var(--green);  border-color:var(--green);  background:rgba(63,185,80,.08); }
+    .section-eyebrow.orange { color:var(--orange); border-color:var(--orange); background:rgba(247,129,102,.08); }
+    .section-eyebrow.purple { color:var(--purple); border-color:var(--purple); background:rgba(188,140,255,.08); }
+    section h2 {
+      font-size:clamp(1.6rem,3.5vw,2.3rem); font-weight:800;
+      letter-spacing:-.8px; margin-bottom:8px;
+    }
+    .section-sub { color:var(--muted); font-size:.95rem; margin-bottom:36px; max-width:640px; }
+
+    /* ── DOC CARDS ───────────────────────────────────────── */
+    .doc-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(250px,1fr)); gap:16px; }
+    .doc-card {
+      display:flex; flex-direction:column; gap:12px;
+      padding:22px; border-radius:var(--radius);
+      background:var(--bg2); border:1px solid var(--border);
+      transition:transform .2s, border-color .2s;
+      color:var(--text);
+    }
+    .doc-card:hover { transform:translateY(-4px); border-color:var(--cyan); }
+    .doc-card:focus-visible { outline:2px solid var(--cyan); outline-offset:2px; }
+    .doc-type {
+      font-family:var(--mono); font-size:.68rem; font-weight:700;
+      padding:3px 9px; border-radius:4px; width:fit-content;
+      border:1px solid var(--border); color:var(--muted);
+    }
+    .doc-type.pdf  { border-color:var(--orange); color:var(--orange); background:rgba(247,129,102,.07); }
+    .doc-type.docx { border-color:var(--purple); color:var(--purple); background:rgba(188,140,255,.07); }
+    .doc-type.odt  { border-color:var(--green);  color:var(--green);  background:rgba(63,185,80,.07); }
+    .doc-card h3 { font-size:1rem; font-weight:700; }
+    .doc-card p  { font-size:.86rem; color:var(--muted); flex:1; }
+    .doc-arrow   { font-family:var(--mono); font-size:.82rem; color:var(--cyan); margin-top:auto; }
+
+    /* ── CERTS ───────────────────────────────────────────── */
+    .cert-list { display:flex; flex-direction:column; gap:14px; }
+    .cert-item {
+      display:grid; grid-template-columns:110px 1fr auto;
+      align-items:center; gap:20px;
+      padding:20px 24px; border-radius:var(--radius);
+      background:var(--bg2); border:1px solid var(--border);
+      transition:border-color .2s;
+    }
+    .cert-item:hover { border-color:var(--purple); }
+    .cert-year { font-family:var(--mono); font-size:.82rem; color:var(--purple); font-weight:600; }
+    .cert-item h3 { font-size:.98rem; font-weight:700; margin-bottom:4px; }
+    .cert-item p  { font-size:.83rem; color:var(--muted); }
+    .cert-badge {
+      font-family:var(--mono); font-size:.72rem; font-weight:600;
+      padding:4px 12px; border-radius:20px; white-space:nowrap;
+    }
+    .cert-badge.ok      { border:1px solid var(--green);  color:var(--green);  background:rgba(63,185,80,.07); }
+    .cert-badge.pending { border:1px solid var(--muted);  color:var(--muted); }
+    .cert-badge.planned { border:1px solid var(--cyan);   color:var(--cyan);   background:rgba(88,166,255,.07); }
+
+    /* ── VEILLE ──────────────────────────────────────────── */
+    .veille-wrap {
+      background:var(--bg2); border:1px solid var(--border);
+      border-radius:14px; overflow:hidden;
+    }
+    .veille-header {
+      padding:28px 36px;
+      background:linear-gradient(135deg,rgba(88,166,255,.06),rgba(188,140,255,.06));
+      border-bottom:1px solid var(--border);
+      display:flex; justify-content:space-between; align-items:flex-start; gap:20px; flex-wrap:wrap;
+    }
+    .veille-header h3 { font-size:1.35rem; font-weight:800; margin-bottom:6px; }
+    .veille-header p  { font-size:.88rem; color:var(--muted); max-width:500px; }
+    .veille-stats {
+      display:flex; gap:24px; flex-wrap:wrap;
+    }
+    .stat { text-align:center; }
+    .stat .val { font-family:var(--mono); font-size:1.4rem; font-weight:700; color:var(--cyan); }
+    .stat .lbl { font-size:.72rem; color:var(--muted); text-transform:uppercase; letter-spacing:1px; }
+
+    .veille-body { padding:36px; }
+
+    .v-section { margin-bottom:40px; }
+    .v-section:last-child { margin-bottom:0; }
+
+    .v-h3 {
+      font-size:1.12rem; font-weight:700; color:var(--cyan);
+      display:flex; align-items:center; gap:10px;
+      margin-bottom:14px; padding-bottom:10px;
+      border-bottom:1px solid var(--border);
+    }
+    .v-h3 .num {
+      font-family:var(--mono); font-size:.72rem; font-weight:700;
+      color:var(--bg); background:var(--cyan);
+      padding:2px 8px; border-radius:4px;
+    }
+    .v-h4 { font-size:.97rem; font-weight:700; color:var(--text); margin:18px 0 8px; }
+    .v-p  { font-size:.93rem; color:var(--muted); margin-bottom:12px; line-height:1.7; }
+    .v-p strong { color:var(--text); }
+
+    .v-ul { display:flex; flex-direction:column; gap:8px; margin-bottom:14px; }
+    .v-ul li {
+      display:flex; gap:10px; font-size:.91rem; color:var(--muted); line-height:1.6;
+    }
+    .v-ul li::before {
+      content:'›'; color:var(--cyan); font-family:var(--mono);
+      font-weight:700; flex-shrink:0; margin-top:1px;
+    }
+    .v-ul li strong { color:var(--text); }
+
+    /* Callout warning */
+    .callout {
+      display:flex; gap:14px; align-items:flex-start;
+      padding:16px 20px; border-radius:8px; margin:16px 0;
+      background:rgba(247,129,102,.07); border-left:3px solid var(--orange);
+    }
+    .callout .icon { font-size:1.1rem; flex-shrink:0; margin-top:2px; }
+    .callout p { font-size:.88rem; color:var(--text); line-height:1.6; margin:0; }
+    .callout p strong { color:var(--orange); }
+
+    /* Compare table */
+    .compare-table { width:100%; border-collapse:collapse; margin:18px 0 24px; font-size:.87rem; border-radius:8px; overflow:hidden; border:1px solid var(--border); }
+    .compare-table th { background:var(--bg3); color:var(--cyan); font-family:var(--mono); font-size:.72rem; text-transform:uppercase; letter-spacing:1px; padding:12px 16px; text-align:left; border-bottom:1px solid var(--border); }
+    .compare-table td { padding:11px 16px; color:var(--muted); border-bottom:1px solid var(--border); vertical-align:top; }
+    .compare-table td:first-child { color:var(--text); font-weight:600; font-size:.85rem; }
+    .compare-table tr:last-child td { border-bottom:none; }
+    .compare-table tr:nth-child(even) td { background:rgba(255,255,255,.015); }
+
+    /* Trend cards */
+    .trend-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(230px,1fr)); gap:14px; margin:16px 0; }
+    .trend-card {
+      padding:18px; border-radius:8px;
+      background:var(--bg3); border:1px solid var(--border);
+    }
+    .trend-card .trend-icon { font-size:1.4rem; margin-bottom:10px; }
+    .trend-card h4 { font-size:.9rem; font-weight:700; margin-bottom:6px; color:var(--text); }
+    .trend-card p  { font-size:.82rem; color:var(--muted); line-height:1.55; }
+
+    /* Link badges */
+    .link-grid { display:flex; flex-wrap:wrap; gap:10px; margin:10px 0; }
+    .link-item {
+      display:inline-flex; align-items:center; gap:7px;
+      font-family:var(--mono); font-size:.78rem;
+      padding:6px 12px; border-radius:6px;
+      background:var(--bg3); border:1px solid var(--border);
+      color:var(--muted);
+    }
+    .link-item .dot { width:6px; height:6px; border-radius:50%; background:var(--cyan); flex-shrink:0; }
+
+    /* Oral text toggle */
+    .oral-block {
+      margin-top:32px;
+      border:1px dashed var(--border);
+      border-radius:10px; overflow:hidden;
+    }
+    .oral-block summary {
+      cursor:pointer; list-style:none;
+      padding:16px 22px;
+      font-family:var(--mono); font-size:.85rem; color:var(--green);
+      display:flex; align-items:center; gap:10px;
+      background:rgba(63,185,80,.04);
+      transition:background .2s;
+    }
+    .oral-block summary:hover { background:rgba(63,185,80,.08); }
+    .oral-block summary::-webkit-details-marker { display:none; }
+    .oral-block summary .arrow { transition:transform .25s; }
+    details[open] .oral-block summary .arrow,
+    .oral-block[open] summary .arrow { transform:rotate(90deg); }
+    .oral-block summary .tag {
+      margin-left:auto; font-size:.7rem; color:var(--muted); font-weight:400;
+    }
+    .oral-content {
+      padding:28px 28px 32px;
+      border-top:1px solid var(--border);
+      background:var(--bg3);
+    }
+    .oral-content p { font-size:.9rem; color:var(--muted); margin-bottom:14px; line-height:1.75; }
+    .oral-content p:last-child { margin-bottom:0; }
+
+    /* ── ABOUT ───────────────────────────────────────────── */
+    .about-grid { display:grid; grid-template-columns:1fr 1fr; gap:20px; }
+    .about-card {
+      padding:22px 24px; border-radius:var(--radius);
+      background:var(--bg2); border:1px solid var(--border);
+    }
+    .about-card h4 { font-size:.9rem; font-weight:700; color:var(--text); margin-bottom:10px; }
+    .about-card p  { font-size:.87rem; color:var(--muted); line-height:1.65; }
+
+    /* ── FOOTER ──────────────────────────────────────────── */
+    footer {
+      border-top:1px solid var(--border);
+      padding:32px 5vw;
+      margin-top:60px;
+      display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:14px;
+    }
+    .footer-logo { font-family:var(--mono); font-size:.82rem; color:var(--muted); }
+    .footer-links { display:flex; gap:22px; }
+    .footer-links a { font-family:var(--mono); font-size:.78rem; color:var(--muted); transition:color .2s; }
+    .footer-links a:hover { color:var(--cyan); }
+
+    /* ── RESPONSIVE ──────────────────────────────────────── */
+    @media (max-width:700px) {
+      .nav-menu { display:none; flex-direction:column; position:absolute; top:60px; left:0; right:0;
+                  background:var(--bg2); border-bottom:1px solid var(--border); padding:12px 5vw; gap:4px; }
+      .nav-menu.open { display:flex; }
+      .hamburger { display:flex; }
+      .hero h1 { letter-spacing:-1px; }
+      .cert-item { grid-template-columns:1fr; }
+      .cert-year { font-size:.75rem; }
+      .cert-badge { width:fit-content; }
+      .about-grid { grid-template-columns:1fr; }
+      .veille-header { flex-direction:column; }
+      .veille-body { padding:22px 20px; }
+      .v-h3 { font-size:1rem; }
+      .compare-table { font-size:.78rem; }
+      .compare-table th, .compare-table td { padding:8px 10px; }
+    }
+
+    /* ── REDUCED MOTION ──────────────────────────────────── */
+    @media (prefers-reduced-motion:reduce) {
+      *, *::before, *::after { animation:none!important; transition:none!important; scroll-behavior:auto!important; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- ══════════════ NAV ══════════════ -->
+<nav>
+  <div class="nav-logo">naim<span class="acc">@</span>bts-sio<span class="prompt">:~$</span></div>
+  <button class="hamburger" aria-label="Menu" onclick="document.querySelector('.nav-menu').classList.toggle('open')">
+    <span></span><span></span><span></span>
+  </button>
+  <ul class="nav-menu">
+    <li><a href="#e5">E5</a></li>
+    <li><a href="#e6">E6</a></li>
+    <li><a href="#veille">Veille Techno</a></li>
+    <li><a href="#certifications">Certifications</a></li>
+  </ul>
+</nav>
+
+<!-- ══════════════ HERO ══════════════ -->
+<header class="hero">
+  <div class="hero-badge">Étudiant BTS SIO — Disponible</div>
+  <h1>
+    <span class="name">Naïm Hamdaoui</span><br>
+    <span class="role">// Admin Systèmes &amp; Sécurité Réseau</span>
+  </h1>
+  <p class="hero-desc">
+    Étudiant en BTS SIO option SISR au CFA INSTA. Passionné par les systèmes, réseaux
+    et la cybersécurité. Ce portfolio regroupe mes épreuves, ma veille technologique ZTNA
+    et mes certifications.
+  </p>
+  <div class="hero-cta">
+    <a class="btn primary" href="#veille">Voir la veille ZTNA →</a>
+    <a class="btn" href="#e5">Épreuves E5</a>
+    <a class="btn" href="#e6">Épreuves E6</a>
+    <a class="btn" href="#certifications">Certifications</a>
+  </div>
+</header>
+
+<!-- ══════════════ E5 ══════════════ -->
+<div class="divider" aria-hidden="true">
+  <span class="node"></span><span class="wire"></span>
+  <span class="label">// section E5</span>
+  <span class="wire"></span><span class="node"></span>
+</div>
+
+<section id="e5">
+  <span class="section-eyebrow cyan">Épreuve E5</span>
+  <h2>Support de l'infrastructure informatique</h2>
+  <p class="section-sub">
+    Documents, procédures et configurations réalisés dans le cadre de l'épreuve E5 —
+    administration systèmes, réseaux et sécurité.
+  </p>
+
+  <div class="doc-grid">
+    <a class="doc-card" href="https://github.com/naihamda/Portefolio/raw/main/E5_1_HAMDAOUI_NAIM_2026.pdf" target="_blank" rel="noopener">
+      <span class="doc-type pdf">PDF · E5.1</span>
+      <h3>Segmentation réseau — VLAN &amp; Routage Inter-VLAN</h3>
+      <p>Sécurisation et segmentation d'un réseau PME : création de 3 VLANs (Compta, RH, Commercial) sur switch Cisco 2960, routage inter-VLAN Router-on-a-Stick sur Cisco 2911 — Cisco Packet Tracer.</p>
+      <span class="doc-arrow">Ouvrir →</span>
+    </a>
+    <a class="doc-card" href="https://github.com/naihamda/Portefolio/raw/main/E5_2_HAMDAOUI_NAIM_2026.pdf" target="_blank" rel="noopener">
+      <span class="doc-type pdf">PDF · E5.2</span>
+      <h3>Déploiement OpenVPN — Accès distant sécurisé</h3>
+      <p>Mise en place d'un serveur VPN SSL/TLS pour DirTechIT : installation OpenVPN sur Linux, PKI Easy-RSA, génération des certificats, configuration serveur/client — port UDP 1194, chiffrement AES-256-CBC.</p>
+      <span class="doc-arrow">Ouvrir →</span>
+    </a>
+    <a class="doc-card" href="https://github.com/naihamda/Portefolio/raw/main/E5_3_HAMDAOUI_NAIM_2026.pdf" target="_blank" rel="noopener">
+      <span class="doc-type pdf">PDF · E5.3</span>
+      <h3>Gestion de parc — Agent GLPI sur Windows</h3>
+      <p>Installation et configuration de l'agent GLPI v1.5 sur poste client Windows 10 (VM VirtualBox) : inventaire automatique matériel/logiciel/réseau remontant vers serveur Debian 12 — GLPI open source.</p>
+      <span class="doc-arrow">Ouvrir →</span>
+    </a>
+    <a class="doc-card" href="https://github.com/naihamda/Portefolio/raw/main/E5_4_HAMDAOUI_NAIM_2026.pdf" target="_blank" rel="noopener">
+      <span class="doc-type pdf">PDF · E5.4</span>
+      <h3>Déploiement Active Directory — Windows Server 2022</h3>
+      <p>Mise en place d'un contrôleur de domaine AD DS pour DirTechIT : installation Windows Server 2022, promotion DC, création du domaine dirtechit.local, configuration DNS interne, GPO.</p>
+      <span class="doc-arrow">Ouvrir →</span>
+    </a>
+  </div>
+</section>
+
+<!-- ══════════════ E6 ══════════════ -->
+<div class="divider" aria-hidden="true">
+  <span class="node"></span><span class="wire"></span>
+  <span class="label">// section E6</span>
+  <span class="wire"></span><span class="node"></span>
+</div>
+
+<section id="e6">
+  <span class="section-eyebrow orange">Épreuve E6</span>
+  <h2>Cybersécurité des services informatiques</h2>
+  <p class="section-sub">
+    Annexes et dossiers réalisés pour l'épreuve E6 — analyse des risques, sécurisation
+    des infrastructures et des services.
+  </p>
+
+  <div class="doc-grid">
+    <a class="doc-card" href="https://github.com/naihamda/Portefolio/raw/main/Fiche%20descriptive%20SISR%20E6%201.docx" target="_blank" rel="noopener">
+      <span class="doc-type docx">DOCX · E6.1</span>
+      <h3>Fiche descriptive SISR E6 — Réalisation 1</h3>
+      <p>Annexe 9-1-A : Implémentation d'un réseau local avec gestion de VLAN sur switch et routeur Cisco. VLAN 10 (Compta) et VLAN 20 (RH), routage inter-VLAN, DHCP par VLAN — CFA INSTA 2025.</p>
+      <span class="doc-arrow">Télécharger →</span>
+    </a>
+    <a class="doc-card" href="https://github.com/naihamda/Portefolio/raw/main/Fiche%20descriptive%20SISR%20E6%202.docx" target="_blank" rel="noopener">
+      <span class="doc-type docx">DOCX · E6.2</span>
+      <h3>Fiche descriptive SISR E6 — Réalisation 2</h3>
+      <p>Annexe 9-1-A : Réseau local multi-switch avec gestion de VLAN — routeur Cisco 2901, 2 switchs, DHCP, segmentation et routage inter-VLAN. CFA INSTA — 10/02 au 20/02/2026.</p>
+      <span class="doc-arrow">Télécharger →</span>
+    </a>
+  </div>
+</section>
+
+<!-- ══════════════ VEILLE ══════════════ -->
+<div class="divider" aria-hidden="true">
+  <span class="node"></span><span class="wire"></span>
+  <span class="label">// section veille technologique</span>
+  <span class="wire"></span><span class="node"></span>
+</div>
+
+<section id="veille">
+  <span class="section-eyebrow green">Veille Technologique</span>
+  <h2>Zero Trust Network Access — ZTNA</h2>
+  <p class="section-sub">
+    Veille complète 2026 : définition, fonctionnement technique, architecture physique,
+    actualités et comparaison avec les autres tendances cybersécurité.
+  </p>
+
+  <div class="veille-wrap">
+
+    <!-- Header -->
+    <div class="veille-header">
+      <div>
+        <h3>Zero Trust Network Access (ZTNA)</h3>
+        <p>Modèle de sécurité réseau reposant sur le principe « never trust, always verify » —
+           analyse complète et mise en perspective avec les enjeux cyber 2026.</p>
+      </div>
+      <div class="veille-stats">
+        <div class="stat"><div class="val">2019</div><div class="lbl">Popularisé par Gartner</div></div>
+        <div class="stat"><div class="val">2026</div><div class="lbl">Standard critique</div></div>
+        <div class="stat"><div class="val">22s</div><div class="lbl">Compromission IA</div></div>
+      </div>
+    </div>
+
+    <!-- Body -->
+    <div class="veille-body">
+
+      <!-- 1. Définition -->
+      <div class="v-section">
+        <div class="v-h3"><span class="num">01</span> Définition et contexte</div>
+        <p class="v-p">
+          La <strong>ZTNA (Zero Trust Network Access)</strong> est un modèle de cybersécurité
+          qui repose sur le principe <strong>« never trust, always verify »</strong> — ne jamais
+          faire confiance, toujours vérifier. Elle s'oppose au modèle traditionnel dit
+          « château-fort et douve » (castle-and-moat), dans lequel tout ce qui se trouve
+          à l'intérieur du réseau est considéré comme fiable par défaut.
+        </p>
+        <p class="v-p">
+          Avec ZTNA, aucun utilisateur ni appareil — interne ou externe — n'est fiable
+          par défaut. Chaque demande d'accès est vérifiée individuellement, de manière
+          granulaire et contextuelle. L'acronyme a été popularisé par Gartner autour de 2019
+          pour désigner une classe de solutions remplaçant les VPN traditionnels.
+        </p>
+        <div class="v-h4">⚠ ZTNA ≠ Zero Trust</div>
+        <ul class="v-ul">
+          <li><strong>Zero Trust (ZTA)</strong> : le cadre global — identités (ZTI), workloads, données, microsegmentation réseau.</li>
+          <li><strong>ZTNA</strong> : un pilier de ce cadre, centré sur l'accès aux applications par les utilisateurs et machines.</li>
+        </ul>
+      </div>
+
+      <!-- 2. Fonctionnement technique -->
+      <div class="v-section">
+        <div class="v-h3"><span class="num">02</span> Fonctionnement technique</div>
+        <p class="v-p">La ZTNA repose sur quatre principes fondamentaux :</p>
+        <ul class="v-ul">
+          <li><strong>Vérification systématique</strong> : chaque demande d'accès est authentifiée et autorisée, quelle que soit son origine.</li>
+          <li><strong>Accès au moindre privilège</strong> : l'utilisateur accède uniquement à l'application précise dont il a besoin — jamais au réseau entier. Limite fortement le mouvement latéral en cas de compromission.</li>
+          <li><strong>Analyse contextuelle continue</strong> : l'accès est évalué selon l'identité, la posture de l'appareil, la localisation et les signaux de risque. La confiance n'est jamais permanente, elle peut être retirée en cours de session.</li>
+          <li><strong>Masquage des ressources (dark cloud)</strong> : les applications ne sont jamais exposées sur Internet. Elles restent invisibles tant que l'accès n'a pas été validé — contrairement au VPN.</li>
+        </ul>
+      </div>
+
+      <!-- 3. Architecture -->
+      <div class="v-section">
+        <div class="v-h3"><span class="num">03</span> Architecture et aspect « physique »</div>
+
+        <div class="v-h4">3.1 — ZTNA initiée par le terminal (endpoint-initiated)</div>
+        <p class="v-p">
+          Un <strong>agent logiciel léger</strong> est installé sur le terminal de l'utilisateur
+          (PC, smartphone). Il communique avec un <strong>broker de confiance</strong>, hébergé
+          dans le cloud, qui vérifie l'identité et la posture de l'appareil avant d'établir
+          un tunnel chiffré point-à-point vers l'application précise demandée.
+        </p>
+
+        <div class="v-h4">3.2 — ZTNA initiée par le service (service-initiated)</div>
+        <p class="v-p">
+          Aucun agent côté utilisateur. Un <strong>connecteur léger</strong> est déployé du côté
+          de l'application ou du datacenter. Idéal pour le <strong>BYOD</strong> (Bring Your Own Device)
+          ou les appareils non managés par l'entreprise.
+        </p>
+
+        <div class="v-h4">3.3 — Principe commun aux deux architectures</div>
+        <p class="v-p">
+          Dans les deux cas, un <strong>broker central (contrôleur de politiques)</strong> est le
+          point de vérification unique. Il authentifie, évalue le contexte, applique les politiques,
+          puis établit un tunnel chiffré limité à une seule application — sans jamais exposer le reste
+          du réseau interne.
+        </p>
+      </div>
+
+      <!-- 4. ZTNA vs VPN -->
+      <div class="v-section">
+        <div class="v-h3"><span class="num">04</span> ZTNA face au VPN traditionnel</div>
+        <table class="compare-table">
+          <thead>
+            <tr>
+              <th>Critère</th>
+              <th>VPN traditionnel</th>
+              <th>ZTNA</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr><td>Accès</td><td>Réseau entier</td><td>Application spécifique uniquement</td></tr>
+            <tr><td>Confiance</td><td>Accordée pour toute la session</td><td>Vérification continue, réévaluée en permanence</td></tr>
+            <tr><td>Exposition</td><td>Réseau visible une fois connecté</td><td>Ressources invisibles depuis Internet</td></tr>
+            <tr><td>Mouvement latéral</td><td>Possible en cas de compromission</td><td>Très fortement limité</td></tr>
+            <tr><td>Adaptation cloud</td><td>Faible — conçu pour réseau centralisé</td><td>Nativement pensé pour cloud et hybride</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 5. Actualités -->
+      <div class="v-section">
+        <div class="v-h3"><span class="num">05</span> Actualités et tendances 2026</div>
+
+        <div class="trend-grid">
+          <div class="trend-card">
+            <div class="trend-icon">🔗</div>
+            <h4>Convergence SASE</h4>
+            <p>ZTNA devient brique fondamentale des plateformes SASE monofournisseur : SWG + CASB + FWaaS unifiés.</p>
+          </div>
+          <div class="trend-card">
+            <div class="trend-icon">🤖</div>
+            <h4>IA & Machine Learning</h4>
+            <p>Politiques d'accès dynamiques ajustées en temps réel selon l'analyse continue du risque par ML.</p>
+          </div>
+          <div class="trend-card">
+            <div class="trend-icon">📡</div>
+            <h4>Extension IoT / OT</h4>
+            <p>Au-delà des humains : ZTNA couvre désormais machine-à-machine, workloads cloud, IoT et environnements industriels.</p>
+          </div>
+          <div class="trend-card">
+            <div class="trend-icon">🌍</div>
+            <h4>Conformité réglementaire</h4>
+            <p>RGPD, DPDP Act, RBI Cyber Security Framework — la réglementation mondiale pousse l'adoption.</p>
+          </div>
+        </div>
+
+        <div class="callout" style="margin-top:22px;">
+          <div class="icon">⚠️</div>
+          <p>
+            <strong>Cas concret 2026 — Dallas :</strong> Une société financière a perdu
+            <strong>2,3 millions de dollars en 47 minutes</strong>. Un attaquant disposant
+            d'identifiants volés s'est déplacé latéralement dans un réseau « plat » à confiance
+            implicite sans déclencher d'alerte. La brèche n'a été stoppée que par un moteur
+            de politique Zero Trust détectant un accès anormal à la base de données de paie.
+            Avec les attaques IA, les fenêtres de compromission sont désormais réduites à
+            <strong>22 secondes</strong>.
+          </p>
+        </div>
+      </div>
+
+      <!-- 6. Liens veilles -->
+      <div class="v-section">
+        <div class="v-h3"><span class="num">06</span> Liens avec d'autres axes de veille</div>
+        <p class="v-p">La ZTNA s'inscrit dans un écosystème de tendances technologiques interconnectées :</p>
+        <div class="link-grid">
+          <span class="link-item"><span class="dot"></span>SASE</span>
+          <span class="link-item"><span class="dot"></span>IA / Cybersécurité</span>
+          <span class="link-item"><span class="dot"></span>Cloud & Hybride</span>
+          <span class="link-item"><span class="dot"></span>IoT / OT</span>
+          <span class="link-item"><span class="dot"></span>RGPD / DPDP Act</span>
+          <span class="link-item"><span class="dot"></span>Microsegmentation</span>
+        </div>
+        <ul class="v-ul" style="margin-top:14px;">
+          <li><strong>SASE</strong> : la ZTNA est la brique d'accès, combinée au SWG, CASB et FWaaS.</li>
+          <li><strong>IA en cybersécurité</strong> : côté défense (détection d'anomalies) et côté attaque (agentic AI).</li>
+          <li><strong>Cloud / hybride</strong> : ZTNA nativement conçue pour le multi-cloud, contrairement aux réseaux historiques.</li>
+          <li><strong>IoT / OT</strong> : convergence avec la microsegmentation pour objets connectés et environnements industriels.</li>
+          <li><strong>Conformité</strong> : RGPD, DPDP Act Inde, RBI Cyber Security Framework — moteurs d'adoption régionaux.</li>
+        </ul>
+      </div>
+
+      <!-- 7. Conclusion -->
+      <div class="v-section">
+        <div class="v-h3"><span class="num">07</span> Conclusion</div>
+        <p class="v-p">
+          La ZTNA répond à l'obsolescence du périmètre réseau traditionnel dans un monde de cloud,
+          télétravail et IoT. En 2026, ce n'est plus une option mais une <strong>exigence critique</strong>.
+          En éliminant la confiance implicite et en imposant des contrôles d'accès précis et continus,
+          la ZTNA permet aux organisations de rester sécurisées, agiles et prêtes pour l'avenir.
+        </p>
+        <p class="v-p">
+          La tendance de fond : sa fusion progressive avec le <strong>SASE</strong> et son enrichissement
+          par l'<strong>IA</strong> pour une sécurité véritablement adaptative et en temps réel.
+        </p>
+      </div>
+
+      <!-- 8. Texte oral -->
+      <details>
+        <summary style="display:none"></summary>
+      </details>
+      <div class="oral-block">
+        <details>
+          <summary>
+            <span class="arrow">▶</span>
+            Texte complet pour l'oral — à mémoriser
+            <span class="tag">8 paragraphes · ~5 min</span>
+          </summary>
+          <div class="oral-content">
+            <p>Bonjour à tous. Aujourd'hui, je vais vous présenter ma veille technologique sur la ZTNA, ou Zero Trust Network Access, un modèle de sécurité qui est en train de transformer la façon dont les entreprises gèrent leurs accès réseau.</p>
+
+            <p>Commençons par la définition. La ZTNA repose sur un principe simple mais radical : « never trust, always verify », c'est-à-dire « ne jamais faire confiance, toujours vérifier ». Cela s'oppose totalement au modèle traditionnel, qu'on appelle le modèle « château-fort et douve ». Dans ce modèle classique, une fois qu'un utilisateur est entré dans le réseau de l'entreprise, par exemple via un VPN, il est considéré comme fiable et peut circuler librement. Avec la ZTNA, ce n'est plus le cas : aucun utilisateur, aucun appareil, qu'il soit à l'intérieur ou à l'extérieur du réseau, n'est considéré comme fiable par défaut. Chaque demande d'accès est vérifiée individuellement.</p>
+
+            <p>Petite précision importante : il ne faut pas confondre ZTNA et Zero Trust. Le Zero Trust, ou Zero Trust Architecture, est le cadre global de sécurité. Il englobe la gestion des identités, la sécurité des charges de travail, la protection des données et la segmentation du réseau. La ZTNA, elle, n'est qu'un pilier de ce cadre : celui qui concerne spécifiquement l'accès aux applications par les utilisateurs et par les machines.</p>
+
+            <p>Voyons maintenant comment ça fonctionne techniquement. La ZTNA repose sur quatre grands principes. Premièrement, la vérification systématique : chaque demande d'accès est authentifiée et autorisée, peu importe d'où elle vient. Deuxièmement, l'accès au moindre privilège : un utilisateur n'a accès qu'à l'application précise dont il a besoin, jamais à l'ensemble du réseau. Cela limite énormément les risques de mouvement latéral si un compte est compromis. Troisièmement, l'analyse contextuelle continue : l'accès est évalué en fonction de l'identité de l'utilisateur, de l'état de sécurité de son appareil, de sa localisation, et d'autres signaux de risque. La confiance n'est jamais permanente, elle peut être retirée en plein milieu d'une session si le risque augmente. Et quatrièmement, le masquage des ressources : contrairement à un VPN classique qui ouvre une porte vers tout le réseau, avec la ZTNA, les applications restent totalement invisibles depuis Internet tant que l'accès n'a pas été validé.</p>
+
+            <p>Du côté de l'architecture, il existe deux grands modèles de déploiement. Le premier, c'est la ZTNA initiée par le terminal : un petit logiciel, un agent, est installé sur l'ordinateur ou le smartphone de l'utilisateur. Cet agent dialogue avec un contrôleur central, hébergé dans le cloud, qu'on appelle le « broker de confiance ». Ce broker vérifie l'identité et la sécurité de l'appareil avant d'ouvrir un tunnel chiffré, point à point, vers l'application demandée. Le deuxième modèle, c'est la ZTNA initiée par le service : ici, pas d'agent sur le poste de l'utilisateur. Un connecteur léger est installé du côté de l'application ou du centre de données. C'est une approche très utile pour le BYOD, c'est-à-dire quand les utilisateurs viennent avec leurs propres appareils non gérés par l'entreprise. Dans les deux cas, un broker central vérifie tout, puis établit un tunnel limité à une seule application, sans jamais exposer le reste du réseau.</p>
+
+            <p>Passons maintenant à l'actualité et aux tendances de 2026. La première grande tendance, c'est la convergence avec le SASE, le Secure Access Service Edge. La ZTNA devient une brique fondamentale de ces plateformes cloud unifiées, qui regroupent aussi le filtrage web, le contrôle des applications cloud et le firewall en tant que service. La tendance est clairement à des solutions « tout-en-un » chez un seul éditeur. Deuxième tendance : l'intelligence artificielle. Les solutions ZTNA intègrent de plus en plus de machine learning pour analyser en continu le niveau de risque et adapter dynamiquement les politiques d'accès en temps réel. Troisième tendance : l'extension du périmètre. La ZTNA s'étend désormais aux communications entre machines, entre charges de travail dans le cloud, et aux objets connectés, IoT et OT pour les environnements industriels.</p>
+
+            <p>Pour illustrer concrètement l'urgence de tout ça, je voudrais citer un exemple marquant de 2026 : une entreprise de services financiers à Dallas a perdu 2,3 millions de dollars en seulement 47 minutes. Ce n'est pas le pare-feu périmétrique qui a failli, mais le fait qu'un attaquant avec des identifiants volés a pu se déplacer librement dans un réseau interne où tout le monde était considéré comme fiable par défaut. C'est seulement quand un moteur de politique Zero Trust a détecté un comportement anormal sur la base de données de paie que l'attaque a été stoppée. Et avec les attaques automatisées par IA, certains experts parlent de fenêtres de compromission de seulement 22 secondes. Ça donne une idée de l'urgence.</p>
+
+            <p>Pour conclure : la ZTNA répond à l'obsolescence du périmètre réseau classique, dans un monde où le cloud, le télétravail et les objets connectés sont partout. En 2026, ce n'est plus une option, c'est devenu un standard incontournable. En supprimant la confiance implicite et en imposant des contrôles d'accès précis et continus, la ZTNA permet aux entreprises de rester sécurisées, agiles, et prêtes pour l'avenir. La tendance de fond : sa fusion progressive avec le SASE et son renforcement par l'IA pour une sécurité réellement adaptative en temps réel. Je vous remercie pour votre attention, je suis prêt à répondre à vos questions.</p>
+          </div>
+        </details>
+      </div>
+
+    </div><!-- /veille-body -->
+  </div><!-- /veille-wrap -->
+</section>
+
+<!-- ══════════════ CERTIFICATIONS ══════════════ -->
+<div class="divider" aria-hidden="true">
+  <span class="node"></span><span class="wire"></span>
+  <span class="label">// section certifications</span>
+  <span class="wire"></span><span class="node"></span>
+</div>
+
+<section id="certifications">
+  <span class="section-eyebrow purple">Certifications</span>
+  <h2>Formations &amp; Certifications</h2>
+  <p class="section-sub">
+    Parcours scolaire, certifications obtenues et en cours de préparation
+    dans les domaines systèmes, réseaux et cybersécurité.
+  </p>
+
+  <div class="cert-list">
+    <div class="cert-item">
+      <span class="cert-year">2021 – 2024</span>
+      <div>
+        <h3>Baccalauréat Professionnel — Systèmes Numériques</h3>
+        <p>Lycée Christophe Colomb</p>
+      </div>
+      <span class="cert-badge ok">Obtenu</span>
+    </div>
+
+    <div class="cert-item">
+      <span class="cert-year">2025 – 2027</span>
+      <div>
+        <h3>BTS SIO — Option SISR</h3>
+        <p>CFA INSTA · Solutions d'Infrastructure, Systèmes et Réseaux</p>
+      </div>
+      <span class="cert-badge pending">En cours</span>
+    </div>
+
+    <div class="cert-item">
+      <span class="cert-year">À venir</span>
+      <div>
+        <h3>Licence Informatique / Cybersécurité</h3>
+        <p>Objectif post-BTS : renforcer les compétences en administration et sécurité</p>
+      </div>
+      <span class="cert-badge planned">Planifié</span>
+    </div>
+
+    <a class="cert-item" href="https://www.credly.com/badges/35aa6071-4213-4898-8bb7-e8b562da951b/public_url" target="_blank" rel="noopener" style="text-decoration:none; grid-template-columns:110px 1fr auto;">
+      <span class="cert-year">2025</span>
+      <div style="display:flex; align-items:center; gap:16px;">
+        <img src="Certification.png" alt="Badge Cisco Networking Basics" style="width:56px; height:56px; object-fit:contain; flex-shrink:0;" />
+        <div>
+          <h3>Networking Basics — Cisco</h3>
+          <p>Certification Cisco : fondamentaux des réseaux, modèle OSI, protocoles TCP/IP, adressage IP, équipements réseau.</p>
+        </div>
+      </div>
+      <span class="cert-badge ok">Obtenu ↗</span>
+    </a>
+  </div>
+
+  <!-- About -->
+  <div style="margin-top:40px;">
+    <div class="about-grid">
+      <div class="about-card">
+        <h4>🎯 Objectif professionnel</h4>
+        <p>Après le BTS SIO, intégrer une licence pour approfondir mes compétences.
+           Devenir administrateur système / développeur, puis me spécialiser en cybersécurité.</p>
+      </div>
+      <div class="about-card">
+        <h4>⚡ Centres d'intérêt</h4>
+        <p>Sport, bien-être, actions bénévoles, implication dans des associations locales
+           et projets de solidarité.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════════ FOOTER ══════════════ -->
+<footer>
+  <div class="footer-logo">naim<span style="color:var(--green)">@</span>bts-sio &mdash; Naïm Hamdaoui · 2026</div>
+  <div class="footer-links">
+    <a href="#e5">E5</a>
+    <a href="#e6">E6</a>
+    <a href="#veille">Veille ZTNA</a>
+    <a href="#certifications">Certifications</a>
+  </div>
+</footer>
+
+<script>
+  // Close mobile nav on link click
+  document.querySelectorAll('.nav-menu a').forEach(a => {
+    a.addEventListener('click', () => document.querySelector('.nav-menu').classList.remove('open'));
+  });
+  // Active nav highlight on scroll
+  const sections = document.querySelectorAll('section[id]');
+  const navLinks = document.querySelectorAll('.nav-menu a');
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        navLinks.forEach(l => l.style.color = '');
+        const active = document.querySelector(`.nav-menu a[href="#${e.target.id}"]`);
+        if (active) active.style.color = 'var(--cyan)';
+      }
+    });
+  }, { threshold:.4 });
+  sections.forEach(s => observer.observe(s));
+</script>
+
+</body>
+</html>
